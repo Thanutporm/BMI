@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.bmi.Model.Body;
+
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
@@ -26,26 +28,19 @@ public class MainActivity extends AppCompatActivity {
             public  void onClick(View view){
                 EditText heightEditText = findViewById(R.id.height_edit_text);
                 EditText weightEditText = findViewById(R.id.weight_edit_text);
-                int h = Integer.parseInt(heightEditText.getText().toString());
-                int w = Integer.parseInt(weightEditText.getText().toString());
-                float bmi = calculateBmi(h,w);
 
-                String resultText = null;
-                if(bmi < 18.5){
-                    resultText = "ผอมเกินไป";
-                }
-                else if (bmi <= 25){
-                    resultText = "น้ำหนักปกติ";
-                }
-                else if(bmi < 30){
-                    resultText = "อ้วน";
-                }
-                else{
-                    resultText = "อ้วนมาก";
-                }
+               int h = Integer.parseInt(heightEditText.getText().toString());
+               int w = Integer.parseInt(weightEditText.getText().toString());
+                Body body = new Body(h,w);
+
+
+                float bmi = calculateBmi(body.getHeight(),body.getWeight());
+
+
                 //String msg = (" BMI เท่ากับ ="+ String.format(Locale.US, "%.2f",bmi));
-                String msg = "เกณฑ์น้ำหนักของคุณ : " + resultText;
+                String msg = "เกณฑ์น้ำหนักของคุณ : " + body.getResultText();
 
+                //Toast.makeText()
                 Toast t = Toast.makeText(MainActivity.this,"ค่า BMI เท่ากับ "+ String.format(Locale.US, "%.2f",bmi),Toast.LENGTH_LONG);
                 t.show();
 
@@ -60,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 });
+
                 dialog.setNegativeButton("No",null);
                 dialog.setCancelable(false);
                 dialog.show();
